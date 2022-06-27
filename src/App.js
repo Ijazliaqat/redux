@@ -1,23 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { mangoActions } from "./store/mangoSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {cartActions} from './store/cartSlice';
+import Child from "./components/Child";
+import { useState } from "react";
+
+
 
 function App() {
+  const [savedData, setSavedData] = useState()
+ 
+  const dispatch = useDispatch();
+  const a = useSelector((state) => state.mango.name);
+  const b = useSelector(state => state.cart.value);
+
+  const updateHandler = () => {
+    dispatch(mangoActions.upDateName('Date is UPdated'))
+
+  }
+
+  const increaseHandler = () => {
+    dispatch(cartActions.increment(5))
+  }
+
+  const decrementHandler = () => {
+    dispatch(cartActions.decerement())
+  }
+
+  const addInputHandler = data => {
+    
+    setSavedData(data)
+  }
+ 
+
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>{a}</h1>
+      <h1>{b}</h1>
+      <button onClick={updateHandler} > Click</button>
+      <button onClick={increaseHandler}>+5</button>
+      <button onClick={decrementHandler}>-1</button>
+
+      <br /> <br />
+      <Child onAddInput= {addInputHandler} />
+      {savedData}
     </div>
   );
 }
